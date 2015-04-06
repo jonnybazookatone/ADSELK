@@ -2,7 +2,7 @@
 
 ## Logging service for ADS
 
-  ##### Table of contents
+##### Table of contents
 
 <!-- TOC depth:4 withLinks:1 updateOnSave:0 -->
 
