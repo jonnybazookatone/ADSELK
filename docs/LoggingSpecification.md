@@ -2,14 +2,25 @@
 
 ## Logging service for ADS
 
-##### Table of contents
-  1. [Elasticsearch/Logstash/Kibana (ELK)](#Elasticsearch/Logstash/Kibana (ELK))
-  1. [Logging system of ADS 2.0](#logging system of ADS 2.0)
-  1. [Specification](#specification)
-  1. [Overview of forwarders](#overview of forwarders)
-  1. [Overview of brokers](#overview of brokers)
-  1. [Possible stacks](#Possible stacks)
-  1. [Conclusions](#conclusions)
+  ##### Table of contents
+
+<!-- TOC depth:4 withLinks:1 updateOnSave:0 -->
+
+- [ADS Elasticsearch/Logstash/Kibana stack for project Bumblebee](#ads-elasticsearchlogstashkibana-stack-for-project-bumblebee)
+	- [Logging service for ADS](#logging-service-for-ads)
+	- [Elasticsearch/Logstash/Kibana (ELK)](#elasticsearchlogstashkibana-elk)
+	- [Logging system of ADS 2.0](#logging-system-of-ads-20)
+	- [Specification](#specification)
+	- [Overview of forwarders](#overview-of-forwarders)
+	- [Overview of brokers](#overview-of-brokers)
+	- [Possible stacks](#possible-stacks)
+	- [Conclusions](#conclusions)
+	- [Alternatives](#alternatives)
+		- [CloudWatch](#cloudwatch)
+		- [FluentD](#fluentd)
+		- [AmazonKinesis](#amazonkinesis)
+
+<!-- /TOC -->
 
 ## Elasticsearch/Logstash/Kibana (ELK)
 
@@ -102,3 +113,22 @@ The logging system needs the following requirements:
 | #1   | -      | RB    | MQB      | -    |
 | #2   | RB     | MQB   | RB       | RB   |
 | #3   | MQB    | -     | -        | MQB  |
+
+## Alternatives
+
+  1. AmazonCloudWatch
+  1. FluentD
+  1. AmazonKinesis
+
+
+### CloudWatch
+
+This service is given freely by AWS. It is also simple to setup, requiring there to be an AmazonAgent installed on the service you are running (e.g., an EC2 instance). The AmazonAgent will then forward the relevant logs to CloudWatch. You can then place free metrics on the logs you define. However, these metrics are fairly simple, allowing only simple counters to be implemented, e.g., "How many 200 responses have occurred", etc. For this reason, CloudWatch is too simple for our purposes.
+
+### FluentD
+
+FluentD can be used instead of logstash. However, given a few comments made in this post, it does not make a huge difference between the two. One *major* reason to pick logstash is that it was designed to parse log files rather than FluentD which was designed for easy movement of log files. I refer the reader to look at this blog post, and for now will not delve further into the details of FluentD: http://jasonwilder.com/blog/2013/11/19/fluentd-vs-logstash/
+
+### AmazonKinesis
+
+Amazon Kinesis is a service that allows you to send input *streams* of data, that are then forwarded to other services, e.g., S3, EC2 instances, RDBs, etc. They charge per PUT request. Currently, I do not foresee a big use case in our situation (as of yet), but it may be used in our stack at a later stage. This would be one way to ensure some sort of queuing system like RabbitMQ, that would also scale nicely, without us having to roll our own. However, it is possible we do not even reach the level of data throughput to justify using this service. https://aws.amazon.com/kinesis
