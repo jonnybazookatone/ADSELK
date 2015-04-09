@@ -1,0 +1,22 @@
+input {
+    lumberjack {
+      port => 5010
+      type => "logs"
+      ssl_certificate => "/etc/pki/tls/certs/logstash-forwarder.crt"
+      ssl_key => "/etc/pki/tls/private/logstash-forwarder.key"
+    }
+}
+
+filter {
+  grok {
+    match => { "message" => "%{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[%{MONTHDAY}/%{MONTH}/%{YEAR} %{TIME}\] \"%{WORD:verb} %{NOTSPACE:bibcode} HTTP/%{NUMBER:httpversion}\" %{NUMBER:response} -" }
+}
+  date {
+    match => [ "timestamp" , "dd/MMM/yyyy HH:mm:ss" ]
+  }
+}
+
+output {
+  elasticsearch { host => localhost }
+  stdout { codec => rubydebug }
+}
