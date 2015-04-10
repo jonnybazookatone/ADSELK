@@ -1,15 +1,10 @@
 # ADS Elasticsearch/Logstash/Kibana stack for centralised logging
 
 ###### Table of content
-
-  <!-- TOC depth:6 withLinks:1 updateOnSave:1 -->
-
-  - [ADS Elasticsearch/Logstash/Kibana stack for centralised logging](#ads-elasticsearchlogstashkibana-stack-for-centralised-logging)
+- [ADS Elasticsearch/Logstash/Kibana stack for centralised logging](#ads-elasticsearchlogstashkibana-stack-for-centralised-logging)
   - [Docker](#docker)
-  	- [Building the docker containers](#building-the-docker-containers)
-  	- [Interactive mode](#interactive-mode)
-
-  <!-- /TOC -->
+    - [Building the docker containers](#building-the-docker-containers)
+    - [Interactive mode when docker container is running](#interactive-mode-when-docker-container-is-running)
 
 # Docker
 
