@@ -23,16 +23,15 @@ RUN apt-get install -y logstash
 
 # Configuration files
 ## logstash config
-COPY resources/logstash-apache.conf /etc/logstash/conf.d/
-
+#COPY resources/logstash-apache.conf /etc/logstash/conf.d/
+COPY resources/logstash-forwarder.key /etc/pki/tls/private/logstash-forwarder/
+COPY resources/logstash-forwarder.crt /etc/pki/tls/certs/logstash-forwarder/
 
 # Define the entry point for docker<->logstash
 ## Logstash-forwarder
-EXPOSE 6969
-
+EXPOSE 6767
 
 # How the docker container is interacted with
 ##
-ENTRYPOINT ["/opt/logstash/bin/logstash", "-l", "/var/log/logstash/logstash.log"]
-CMD ["-f", "/etc/logstash/conf.d/logstash.conf"]
-  
+ENTRYPOINT ["/opt/logstash/bin/logstash", "-l", "/var/log/logstash/logstash.log", "-f", "/etc/logstash.conf"]
+CMD []
