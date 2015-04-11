@@ -4,7 +4,7 @@ import datetime
 import random
 import time
 
-with open("/tmp/access_log", "a", 0) as fi:
+with open("/vagrant/logs/apache/access_log", "a", 0) as fi:
   while True:
 
     rnd = int(random.random()*5)

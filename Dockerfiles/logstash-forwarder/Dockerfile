@@ -29,4 +29,4 @@ COPY resources/logstash-forwarder.crt /etc/pki/tls/certs/logstash-forwarder/
 # How the docker container is interacted with
 ##
 ENTRYPOINT ["/opt/logstash-forwarder/logstash-forwarder"]
-CMD ["-config", "/etc/logstash-forwarder.conf"]
+CMD ["-config", "/etc/logstash-forwarder.conf", "> /var/log/logstash-forwarder.log", "2>> /var/log/logstash-forwarder.log"]
