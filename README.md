@@ -51,3 +51,7 @@ sudo docker run -t logstash --configtest
 ```
 sudo docker exec -i -t logstash /bin/bash
 ```
+
+# OpenSSL
+
+## Current implementation of openSSL signatures, will be changed when open to the internet
