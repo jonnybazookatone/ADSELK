@@ -77,6 +77,26 @@ This sets up the following:
     * Look inside the container if its running and check the relevant log files `docker exec -i -t logstash /bin/bash`
     * Run the container interactively: `docker run -i ...`, look inside `deploy/run.sh` for the relevant kwargs.
 
+    # OpenSSL
+
+    ## Current implementation of openSSL signatures (MUST  be changed when/if Logstash is opened to the internet)
+
+    As written on the logstash-forwarder repository:
+
+    `openssl req -x509 -subj '/CN=*' -batch -nodes -newkey rsa:2048 -keyout lumberjack.key -out lumberjack.crt -subj /CN=logstash.example.com`
+
+    with the addition of '/CN=*'. These are self-signed and insecure, and only intended to be used inside a private network.
+
+    # Elasticsearch
+
+    ## Debugging
+
+    There are three web interfaces that can be used to debug issues within elasticsearch, and can be accessed at the following:
+
+      * http://localhost:9200/_plugin/kopf
+      * http://localhost:9200/_plugin/head
+
+
 # AWS Deployment
 
 ## Elastickibana
@@ -94,22 +114,3 @@ Logstash will sit on its own EC2 instance. It is foreseeable that Logstash will 
 ## Caveats to the deployment
 
 Given that logstash needs to correctly communicate with elasticsearch, the following will be done: a config file for logstash will sit on S3 storage, which will be grabbed by each new instance that is spun up by the ASG. The user will manually have to put the load balancer IP inside the config file.
-
-# OpenSSL
-
-## Current implementation of openSSL signatures (MUST  be changed when/if Logstash is opened to the internet)
-
-As written on the logstash-forwarder repository:
-
-`openssl req -x509 -subj '/CN=*' -batch -nodes -newkey rsa:2048 -keyout lumberjack.key -out lumberjack.crt -subj /CN=logstash.example.com`
-
-with the addition of '/CN=*'. These are self-signed and insecure, and only intended to be used inside a private network.
-
-# Elasticsearch
-
-## Debugging
-
-There are three web interfaces that can be used to debug issues within elasticsearch, and can be accessed at the following:
-
-  * http://localhost:9200/_plugin/kopf
-  * http://localhost:9200/_plugin/head
