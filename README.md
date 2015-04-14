@@ -77,24 +77,24 @@ This sets up the following:
     * Look inside the container if its running and check the relevant log files `docker exec -i -t logstash /bin/bash`
     * Run the container interactively: `docker run -i ...`, look inside `deploy/run.sh` for the relevant kwargs.
 
-    # OpenSSL
+# OpenSSL
 
-    ## Current implementation of openSSL signatures (MUST  be changed when/if Logstash is opened to the internet)
+## Current implementation of openSSL signatures (MUST  be changed when/if Logstash is opened to the internet)
 
-    As written on the logstash-forwarder repository:
+As written on the logstash-forwarder repository:
 
-    `openssl req -x509 -subj '/CN=*' -batch -nodes -newkey rsa:2048 -keyout lumberjack.key -out lumberjack.crt -subj /CN=logstash.example.com`
+`openssl req -x509 -subj '/CN=*' -batch -nodes -newkey rsa:2048 -keyout lumberjack.key -out lumberjack.crt -subj /CN=logstash.example.com`
 
-    with the addition of '/CN=*'. These are self-signed and insecure, and only intended to be used inside a private network.
+with the addition of '/CN=*'. These are self-signed and insecure, and only intended to be used inside a private network.
 
-    # Elasticsearch
+# Elasticsearch
 
-    ## Debugging
+## Debugging
 
-    There are three web interfaces that can be used to debug issues within elasticsearch, and can be accessed at the following:
+There are three web interfaces that can be used to debug issues within elasticsearch, and can be accessed at the following:
 
-      * http://localhost:9200/_plugin/kopf
-      * http://localhost:9200/_plugin/head
+  * http://localhost:9200/_plugin/kopf
+  * http://localhost:9200/_plugin/head
 
 
 # AWS Deployment
