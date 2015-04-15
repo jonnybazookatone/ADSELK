@@ -23,15 +23,17 @@ RUN apt-get install -y logstash
 
 # Configuration files
 ## logstash config
+## Should be sitting on S3 now
 #COPY resources/logstash-apache.conf /etc/logstash/conf.d/
-COPY resources/logstash-forwarder.key /etc/pki/tls/private/logstash-forwarder/
-COPY resources/logstash-forwarder.crt /etc/pki/tls/certs/logstash-forwarder/
+#COPY resources/logstash-forwarder.key /etc/pki/tls/private/logstash-forwarder/
+#COPY resources/logstash-forwarder.crt /etc/pki/tls/certs/logstash-forwarder/
 
 # Define the entry point for docker<->logstash
 ## Logstash-forwarder
 EXPOSE 6767
 
+
 # How the docker container is interacted with
 ##
-ENTRYPOINT ["/opt/logstash/bin/logstash", "-l", "/var/log/logstash/logstash.log", "-f", "/etc/logstash.conf"]
+ENTRYPOINT ["/opt/logstash/bin/logstash", "-l", "/var/log/logstash/logstash.log", "-f", "/etc/logstash/conf.d/logstash.conf"]
 CMD []
