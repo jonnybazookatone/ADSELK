@@ -10,13 +10,20 @@ git clone https://github.com/jonnybazookatone/ADSELK.git
 service docker start
 
 # Build Elasticsearch and Kibana containers
-cd ADSELK/
-sudo docker build --tag adsabs/elasticsearch Dockerfiles/elasticsearch/
-sudo docker build --tag adsabs/kibana Dockerfiles/kibana/
+pushd ADSELK/
+docker build --tag adsabs/elasticsearch Dockerfiles/elasticsearch/
+docker build --tag adsabs/kibana Dockerfiles/kibana/
+
+# Copy the config file
+mkdir -p /etc/elasticsearch/
+pushd /etc/elasticsearch/
+aws s3 cp s3://adsabs-elk-etc/elasticsearch.yml elasticsearch.yml
+aws s3 cp s3://adsabs-elk-etc/logging.yml logging.yml
+popd
 
 # Run the containers
 ## First start elasticsearch
-sudo docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 adsabs/elasticsearch
+sudo docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -v /etc/elasticsearch/:/etc/elasticsearch/ adsabs/elasticsearch
 
 ## Second start kibana
 ## Kibana should wait for elasticsearch to be ready, otherwise it will crash
@@ -45,4 +52,6 @@ do
   sleep 1
 done
 
-sudo docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 adsabs/kibana
+docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 adsabs/kibana
+
+popd
