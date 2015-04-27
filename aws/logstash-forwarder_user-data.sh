@@ -1,6 +1,5 @@
 #!/bin/bash
-# root is easier
-sudo su
+# Run as root
 
 # Install docker and git
 yum install docker git -y

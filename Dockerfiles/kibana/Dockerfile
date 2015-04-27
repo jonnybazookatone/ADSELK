@@ -21,5 +21,5 @@ RUN echo 'haha'
 # How the docker container is interacted with
 ##
 ENTRYPOINT ["/opt/kibana/bin/kibana"]
-CMD ["-c", "/etc/kibana/config/"]
+CMD ["-c", "/etc/kibana/config/kibana.yml"]
 #CMD ["-e", "http://elasticsearch:9200"]

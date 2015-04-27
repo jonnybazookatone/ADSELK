@@ -21,9 +21,15 @@ aws s3 cp s3://adsabs-elk-etc/elasticsearch.yml elasticsearch.yml
 aws s3 cp s3://adsabs-elk-etc/logging.yml logging.yml
 popd
 
+mkdir -p /etc/kibana/config/
+pushd /etc/kibana/config/
+aws s3 cp s3://adsabs-elk-etc/kibana.yml kibana.yml
+popd
+
+
 # Run the containers
 ## First start elasticsearch
-sudo docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -v /etc/elasticsearch/:/etc/elasticsearch/ adsabs/elasticsearch
+docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -v /etc/elasticsearch/:/etc/elasticsearch/ adsabs/elasticsearch
 
 ## Second start kibana
 ## Kibana should wait for elasticsearch to be ready, otherwise it will crash
@@ -52,6 +58,6 @@ do
   sleep 1
 done
 
-docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 adsabs/kibana
+docker run -d --name kibana --link elasticsearch:elasticsearch -p 5601:5601 -v /etc/kibana/config/kibana.yml:/etc/kibana/config/kibana.yml adsabs/kibana
 
 popd
